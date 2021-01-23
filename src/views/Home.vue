@@ -1,7 +1,7 @@
 <template>
     <div class="cdn-box">
 
-        <h1 class="page-title">CDN Packets</h1>
+        <h1 class="page-title"></h1>
 
         <form @submit.prevent="submitHandler">
             <v-text-field
@@ -17,6 +17,7 @@
 
             <v-btn @click="submitHandler"
                     class="mr-4"
+                   color="primary"
             >
                 Submit
             </v-btn>
@@ -27,7 +28,11 @@
 
         <div class="packets-list-wrapper">
             <ul class="packets-list">
-                <li :key="" v-for="p in PACKETS" >{{p.name}}</li>
+                <PacketsListItem
+                        v-for="(p, index) in PACKETS"
+                        :key="index"
+                        :data=p
+                />
             </ul>
         </div>
 
@@ -35,13 +40,16 @@
 </template>
 
 <script>
+    import PacketsListItem from '../components/PacketsListItem'
     import {mapGetters} from 'vuex'
     import { validationMixin } from 'vuelidate'
     import { required } from 'vuelidate/lib/validators'
 
     export default {
         name: 'Home',
-        components: {},
+        components: {
+            PacketsListItem
+        },
         mixins: [validationMixin],
         validations: {
             name: { required },
@@ -95,10 +103,6 @@
         margin-bottom: 25px;
     }
 
-    .cdn-box {
-        margin-top: 100px;
-    }
-
     .input-name {
         margin-bottom: 10px;
 
@@ -112,6 +116,12 @@
     }
 
     .packets-list {
+        padding: 0;
+        list-style: none;
+    }
+
+
+    @media (max-width: 639px) {
 
     }
 
