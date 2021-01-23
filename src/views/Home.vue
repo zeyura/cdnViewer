@@ -55,6 +55,7 @@
 
 <script>
     import PacketsListItem from '../components/PacketsListItem'
+
     import {mapGetters} from 'vuex'
     import { validationMixin } from 'vuelidate'
     import { required } from 'vuelidate/lib/validators'
