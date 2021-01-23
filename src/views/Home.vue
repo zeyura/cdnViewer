@@ -3,18 +3,19 @@
 
         <h1 class="page-title">CDN Packets</h1>
 
-        <form>
+        <form @submit.prevent="submitHandler">
             <v-text-field
                     v-model="name"
-                    :error-messages="nameErrors"
                     label="enter name"
                     required
+
+                    @input="$v.name.$touch()"
+                    @blur="$v.name.$touch()"
             >
             </v-text-field>
 
-            <v-btn
+            <v-btn @click="submitHandler"
                     class="mr-4"
-                    @click="submit"
             >
                 submit
             </v-btn>
@@ -23,26 +24,59 @@
             </v-btn>
         </form>
 
-        <ul class="packets-list">
-
-        </ul>
+        <div class="packets-list-wrapper">
+            <ul class="packets-list">
+                <li :key="" v-for="p in PACKETS" >{{p.name}}</li>
+            </ul>
+        </div>
 
     </div>
 </template>
 
 <script>
-    // @ is an alias to /src
-    //import HelloWorld from '@/components/HelloWorld.vue'
+    import {mapGetters} from 'vuex'
 
     export default {
         name: 'Home',
         components: {},
-        data: () => ({}),
+        data: () => ({
+            packets: [],
+            name: 'lod'
+
+        }),
         async mounted() {
 
+            if( this.packets.length ) {
+               // this.Categories = this.categories;
+            } else {
+                this.packets = await this.$store.dispatch('getPackets', {
+                   name: this.name
+                });
+            }
+
         },
-        computed: {},
-        methods: {}
+        computed: {
+            ...mapGetters(['PACKETS']),
+
+           // this.store.dispatch('getPackets')
+
+        },
+        methods: {
+
+            async submitHandler() {
+
+                this.packets = await this.$store.dispatch('getPackets', {
+                    name: this.name
+                });
+
+
+            },
+
+            clear() {
+                this.name = ''
+            }
+
+        }
     }
 </script>
 
@@ -54,6 +88,10 @@
 
     .cdn-box {
         margin-top: 100px;
+    }
+
+    .packets-list-wrapper {
+        margin: 30px 0;
     }
 
     .packets-list {
