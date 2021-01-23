@@ -14,7 +14,7 @@
           width="40"
         />
 
-        <h1 class="site-title">CDN Packets Viewer</h1>
+        <h1 class="site-title">CDN Packages Viewer</h1>
 
       </div>
 
@@ -54,7 +54,8 @@ export default {
   }
 
   .cdn-box {
-    margin-top: 100px;
+    margin-top: 80px;
+    margin-bottom: 60px;
   }
 
   .site-title {
@@ -70,6 +71,7 @@ export default {
     }
     .cdn-box {
       margin-top: 50px;
+      margin-bottom: 50px;
     }
   }
 

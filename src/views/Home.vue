@@ -19,7 +19,7 @@
                     class="mr-4"
                    color="primary"
             >
-                Submit
+                Search
             </v-btn>
             <v-btn @click="clear">
                 Clear
@@ -29,11 +29,25 @@
         <div class="packets-list-wrapper">
             <ul class="packets-list">
                 <PacketsListItem
-                        v-for="(p, index) in PACKETS"
+                        v-for="(p, index) in PACK"
                         :key="index"
                         :data=p
                 />
             </ul>
+        </div>
+
+        <div class="paginator text-center" v-if="pages > 1">
+            <v-pagination
+                    v-model=page
+                    :length=pages
+                    :total-visible="7"
+                    @input="pressNumber"
+
+            ></v-pagination>
+        </div>
+
+        <div class="packetsCount" :class="{active: packetsCountShow}">
+            Found: {{ PACKETS.length }}
         </div>
 
     </div>
@@ -56,16 +70,29 @@
         },
         data: () => ({
             packets: [],
-            name: ''
+            name: '',
+            page: 1,
+            packetsCountShow: false
 
         }),
         async mounted() {
 
         },
         computed: {
-            ...mapGetters(['PACKETS']),
+            ...mapGetters(['PACKETS', 'ITEMS_IN_PAGE']),
 
-           // this.store.dispatch('getPackets')
+            pages() {
+                if(!this.PACKETS) return 0
+                return Math.ceil( this.PACKETS.length / this.ITEMS_IN_PAGE )
+            },
+
+            PACK() {
+               return this.PACKETS.filter((p, i) => {
+                   let start = ( this.page - 1 ) * this.ITEMS_IN_PAGE
+                   let end   = start + this.ITEMS_IN_PAGE
+                   return i >= start && i < end
+               })
+            },
 
             nameErrors () {
                 const errors = []
@@ -85,12 +112,22 @@
                 this.packets = await this.$store.dispatch('getPackets', {
                     name: this.name
                 });
+                this.page = 1
+                this.packetsCountShow = true
+                setTimeout(() => {
+                    this.packetsCountShow = false
+                },2400)
             },
 
             clear() {
                 this.$v.$reset()
                 this.$store.commit('clearPackets')
                 this.name = ''
+                this.packetsCountShow = false
+            },
+
+            pressNumber(n) {
+                this.page = n
             }
 
         }
@@ -121,7 +158,34 @@
     }
 
 
+    .packetsCount {
+        position: fixed;
+        right: 20px;
+        top: 80px;
+        padding: 10px 15px;
+        background-color: rgba(1,1,1,.8);
+        color: white;
+        transform: scale(0);
+        transition: transform .2s;
+
+        &.active {
+            transform: scale(1);
+        }
+    }
+
     @media (max-width: 639px) {
+
+        .packetsCount {
+            top: 75px;
+        }
+
+    }
+
+    @media (min-width: 1024px) {
+
+        .packetsCount {
+            top: 90px;
+        }
 
     }
 

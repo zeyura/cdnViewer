@@ -5,7 +5,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-      packets: []
+      packets: [],
+      pages: 1,
+      itemsInPage: 10
   },
 
   actions: {
@@ -26,6 +28,7 @@ export default new Vuex.Store({
 
       updatePackets(state, packets) {
           state.packets = packets;
+          //state.pages   = Math.ceil( packets.length / state.itemsInPage )
       },
       clearPackets(state) {
           state.packets = [];
@@ -34,7 +37,8 @@ export default new Vuex.Store({
   },
 
   getters: {
-      PACKETS: state => state.packets
+      PACKETS: state => state.packets,
+      ITEMS_IN_PAGE: state => state.itemsInPage,
   },
 
   modules: {

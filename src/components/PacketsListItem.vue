@@ -40,7 +40,7 @@
         }
 
         .lastversion {
-            font-size: 85%;
+            font-size: 80%;
             opacity: .75;
         }
     }
