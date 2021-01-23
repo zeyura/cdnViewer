@@ -47,8 +47,14 @@ export default {
 <style lang="scss" scoped>
 
   .v-main {
-    width: 700px;
+    width: 600px;
     margin: auto;
   }
+
+
+
+
+
+
 
 </style>

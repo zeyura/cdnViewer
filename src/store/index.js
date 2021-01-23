@@ -26,6 +26,9 @@ export default new Vuex.Store({
 
       updatePackets(state, packets) {
           state.packets = packets;
+      },
+      clearPackets(state) {
+          state.packets = [];
       }
 
   },

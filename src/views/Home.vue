@@ -5,10 +5,11 @@
 
         <form @submit.prevent="submitHandler">
             <v-text-field
+                    class="input-name"
                     v-model="name"
-                    label="enter name"
+                    :error-messages="nameErrors"
+                    label="Name"
                     required
-
                     @input="$v.name.$touch()"
                     @blur="$v.name.$touch()"
             >
@@ -17,10 +18,10 @@
             <v-btn @click="submitHandler"
                     class="mr-4"
             >
-                submit
+                Submit
             </v-btn>
             <v-btn @click="clear">
-                clear
+                Clear
             </v-btn>
         </form>
 
@@ -35,24 +36,22 @@
 
 <script>
     import {mapGetters} from 'vuex'
+    import { validationMixin } from 'vuelidate'
+    import { required } from 'vuelidate/lib/validators'
 
     export default {
         name: 'Home',
         components: {},
+        mixins: [validationMixin],
+        validations: {
+            name: { required },
+        },
         data: () => ({
             packets: [],
-            name: 'lod'
+            name: ''
 
         }),
         async mounted() {
-
-            if( this.packets.length ) {
-               // this.Categories = this.categories;
-            } else {
-                this.packets = await this.$store.dispatch('getPackets', {
-                   name: this.name
-                });
-            }
 
         },
         computed: {
@@ -60,19 +59,29 @@
 
            // this.store.dispatch('getPackets')
 
+            nameErrors () {
+                const errors = []
+                if (!this.$v.name.$dirty) return errors
+                !this.$v.name.required && errors.push('Name is required')
+                return errors
+            }
+
         },
         methods: {
 
             async submitHandler() {
-
+                if(this.$v.$invalid) { // if Form is in Invalid
+                    this.$v.$touch();
+                    return
+                }
                 this.packets = await this.$store.dispatch('getPackets', {
                     name: this.name
                 });
-
-
             },
 
             clear() {
+                this.$v.$reset()
+                this.$store.commit('clearPackets')
                 this.name = ''
             }
 
@@ -88,6 +97,14 @@
 
     .cdn-box {
         margin-top: 100px;
+    }
+
+    .input-name {
+        margin-bottom: 10px;
+
+        input {
+            font-size: 50px;
+        }
     }
 
     .packets-list-wrapper {
