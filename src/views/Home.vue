@@ -16,7 +16,7 @@
             </v-text-field>
 
             <v-btn @click="submitHandler"
-                    class="mr-4"
+                   class="mr-4"
                    color="primary"
             >
                 Search
@@ -26,7 +26,9 @@
             </v-btn>
         </form>
 
-        <div class="packets-list-wrapper">
+        <Loader v-if="loading" />
+
+        <div class="packets-list-wrapper" v-if="!loading">
             <ul class="packets-list">
                 <PacketsListItem
                         v-for="(p, index) in PACK"
@@ -36,7 +38,7 @@
             </ul>
         </div>
 
-        <div class="paginator text-center" v-if="pages > 1">
+        <div class="paginator text-center" v-if="!loading && pages > 1">
             <v-pagination
                     v-model=page
                     :length=pages
@@ -55,21 +57,24 @@
 
 <script>
     import PacketsListItem from '../components/PacketsListItem'
+    import Loader from '../components/Loader'
 
     import {mapGetters} from 'vuex'
-    import { validationMixin } from 'vuelidate'
-    import { required } from 'vuelidate/lib/validators'
+    import {validationMixin} from 'vuelidate'
+    import {required} from 'vuelidate/lib/validators'
 
     export default {
         name: 'Home',
         components: {
-            PacketsListItem
+            PacketsListItem,
+            Loader
         },
         mixins: [validationMixin],
         validations: {
-            name: { required },
+            name: {required},
         },
         data: () => ({
+            loading: false,
             packets: [],
             name: '',
             page: 1,
@@ -77,25 +82,24 @@
 
         }),
         async mounted() {
-
         },
         computed: {
             ...mapGetters(['PACKETS', 'ITEMS_IN_PAGE']),
 
             pages() {
-                if(!this.PACKETS) return 0
-                return Math.ceil( this.PACKETS.length / this.ITEMS_IN_PAGE )
+                if (!this.PACKETS) return 0
+                return Math.ceil(this.PACKETS.length / this.ITEMS_IN_PAGE)
             },
 
             PACK() {
-               return this.PACKETS.filter((p, i) => {
-                   let start = ( this.page - 1 ) * this.ITEMS_IN_PAGE
-                   let end   = start + this.ITEMS_IN_PAGE
-                   return i >= start && i < end
-               })
+                return this.PACKETS.filter((p, i) => {
+                    let start = (this.page - 1) * this.ITEMS_IN_PAGE
+                    let end = start + this.ITEMS_IN_PAGE
+                    return i >= start && i < end
+                })
             },
 
-            nameErrors () {
+            nameErrors() {
                 const errors = []
                 if (!this.$v.name.$dirty) return errors
                 !this.$v.name.required && errors.push('Name is required')
@@ -106,18 +110,21 @@
         methods: {
 
             async submitHandler() {
-                if(this.$v.$invalid) { // if Form is in Invalid
+                if (this.$v.$invalid) {
                     this.$v.$touch();
                     return
                 }
+
+                this.loading = true
                 this.packets = await this.$store.dispatch('getPackets', {
                     name: this.name
                 });
                 this.page = 1
+                this.loading = false
                 this.packetsCountShow = true
                 setTimeout(() => {
                     this.packetsCountShow = false
-                },2400)
+                }, 2400)
             },
 
             clear() {
@@ -158,13 +165,12 @@
         list-style: none;
     }
 
-
     .packetsCount {
         position: fixed;
         right: 20px;
         top: 80px;
         padding: 10px 15px;
-        background-color: rgba(1,1,1,.8);
+        background-color: rgba(1, 1, 1, .8);
         color: white;
         transform: scale(0);
         transition: transform .2s;

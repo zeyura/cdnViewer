@@ -9,14 +9,15 @@
                     transition="dialog-top-transition"
                     max-width="600"
             >
-                <template v-slot:activator="{ on, attrs }" >
+                <template v-slot:activator="{ on, attrs }">
                     <v-btn
                             :id=data.name
                             color="primary"
                             v-bind="attrs"
                             v-on="on"
 
-                    >Details</v-btn>
+                    >Details
+                    </v-btn>
                 </template>
                 <template v-slot:default="dialog">
                     <v-card>
@@ -24,14 +25,18 @@
                                 color="primary"
                                 dark
                                 class="text-h5 "
-                        >{{data.name}}</v-toolbar>
+                        >{{data.name}}
+                        </v-toolbar>
 
                         <v-card-text>
                             <div class="text-h6 pa-0 description">{{data.description}}</div>
                             <div class="other">
                                 <p class="author primery"><strong>Author:</strong> {{data.author}}</p>
-                                <p v-if="data.homepage"><strong>Homepage:</strong> <a :href='data.homepage' target="_blank">{{data.homepage}}</a> </p>
-                                <p v-if="data.github"><strong>Github:</strong> <a :href='data.github' target="_blank">{{data.github}}</a> </p>
+                                <p v-if="data.homepage"><strong>Homepage:</strong> <a :href='data.homepage'
+                                                                                      target="_blank">{{data.homepage}}</a>
+                                </p>
+                                <p v-if="data.github"><strong>Github:</strong> <a :href='data.github' target="_blank">{{data.github}}</a>
+                                </p>
                                 <p><strong>Mainfile:</strong> {{data.mainfile}}</p>
                                 <p><strong>Created:</strong> {{created}}</p>
                             </div>
@@ -42,7 +47,8 @@
                             <v-btn
                                     text
                                     @click="dialog.value = false"
-                            >Close</v-btn>
+                            >Close
+                            </v-btn>
                         </v-card-actions>
                     </v-card>
                 </template>
@@ -56,7 +62,7 @@
     export default {
         name: "packets-list-item",
         components: {
-           // Modal
+            // Modal
         },
         props: {
             data: {
@@ -64,9 +70,7 @@
                 required: true
             }
         },
-        data: () => ({
-
-        }),
+        data: () => ({}),
         computed: {
             created() {
                 let t = new Date(this.data.meta.created)
@@ -82,10 +86,10 @@
     }
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 
     .theme--light.v-card > .v-card__text, .theme--light.v-card .v-card__subtitle {
-        color: rgba(0, 0, 0, 0.8)!important;
+        color: rgba(0, 0, 0, 0.8) !important;
     }
 
     .packets-list-item {
@@ -101,7 +105,7 @@
             font-size: 20px;
             color: #333;
             cursor: pointer;
-            margin-bottom: 5px  ;
+            margin-bottom: 5px;
         }
 
         .description {
@@ -123,7 +127,7 @@
         }
 
         .v-card__text {
-            padding-bottom: 5px!important;
+            padding-bottom: 5px !important;
 
             .description {
                 margin-top: 20px;
@@ -146,10 +150,9 @@
         }
 
         .v-card__actions {
-            padding-top: 5px!important;
-            padding-bottom: 12px!important;
+            padding-top: 5px !important;
+            padding-bottom: 12px !important;
         }
-
     }
 
 </style>

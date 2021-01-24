@@ -6,10 +6,9 @@
         <v-card
                 class="flex"
                 flat
-
         >
             <v-card-title class="footer-top white">
-                <img src="../../public/img/author.jpg" alt="" class="img-author-footer" />
+                <img src="../../public/img/author.jpg" alt="photo-author" class="img-author-footer"/>
 
                 <a href="https://zeyura.github.io/" target="_blank" class="subheading">https://zeyura.github.io/</a>
 
@@ -22,9 +21,9 @@
                         icon
                 >
                     <a :href="icon.url" target="_blank" class="sozLink">
-                    <v-icon size="32px">
-                        {{ icon.name }}
-                    </v-icon>
+                        <v-icon size="32px">
+                            {{ icon.name }}
+                        </v-icon>
                     </a>
                 </v-btn>
             </v-card-title>
@@ -42,7 +41,10 @@
         data: () => ({
             icons: [
                 {name: 'mdi-github', url: 'https://github.com/zeyura'},
-                {name: 'mdi-linkedin', url: 'https://www.linkedin.com/in/%D1%8E%D1%80%D0%B0-%D0%B7%D0%B5%D0%BB%D0%B5%D0%B7-4a48651b5/'},
+                {
+                    name: 'mdi-linkedin',
+                    url: 'https://www.linkedin.com/in/%D1%8E%D1%80%D0%B0-%D0%B7%D0%B5%D0%BB%D0%B5%D0%B7-4a48651b5/'
+                },
                 {name: 'mdi-facebook', url: 'https://www.facebook.com/zeyura/'}
             ],
         }),
@@ -52,21 +54,22 @@
 <style lang="scss" scoped>
 
     .v-sheet.v-card {
-        border-radius: 0px;
+        border-radius: 0;
     }
 
     .v-footer {
         border-top: 1px solid #999;
     }
+
     .footer-top {
         padding-top: 15px;
         padding-bottom: 15px;
     }
 
-    .v-btn.v-btn--icon , .subheading , .sozLink {
-       color: #444;
+    .v-btn.v-btn--icon, .subheading, .sozLink {
+        color: #444;
         &:hover {
-            color:#000;
+            color: #000;
         }
     }
 
