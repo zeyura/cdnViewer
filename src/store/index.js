@@ -13,13 +13,11 @@ export default new Vuex.Store({
   actions: {
 
       async getPackets({commit, getters, dispatch}, {name}){
-
           const result = await fetch(
               `https://api.jsdelivr.com/v1/jsdelivr/libraries?name=*${name}*`
           );
           const packets = await result.json();
           commit('updatePackets', packets);
-
       }
 
   },
@@ -28,7 +26,6 @@ export default new Vuex.Store({
 
       updatePackets(state, packets) {
           state.packets = packets;
-          //state.pages   = Math.ceil( packets.length / state.itemsInPage )
       },
       clearPackets(state) {
           state.packets = [];
@@ -39,8 +36,6 @@ export default new Vuex.Store({
   getters: {
       PACKETS: state => state.packets,
       ITEMS_IN_PAGE: state => state.itemsInPage,
-  },
-
-  modules: {
   }
+
 })
