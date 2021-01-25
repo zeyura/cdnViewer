@@ -6,7 +6,7 @@
         <form @submit.prevent="submitHandler">
             <v-text-field
                     class="input-name"
-                    v-model="name"
+                    v-model.trim="name"
                     :error-messages="nameErrors"
                     label="Name"
                     required
