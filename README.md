@@ -1,19 +1,5 @@
-# cdnviewer
+# cdnViewer
 
-## Project setup
-```
-npm install
-```
+## Vue.js/Vuex Project
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Search CDN Packages on jsdelivr.com (cdn packages API)
